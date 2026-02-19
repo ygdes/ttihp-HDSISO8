@@ -43,14 +43,14 @@ pinout:
   uo[7]: ""
 
   # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
+  uio[0]: "PULSE0"
+  uio[1]: "PULSE1"
+  uio[2]: "PULSE2"
+  uio[3]: "PULSE3"
+  uio[4]: "PULSE4"
+  uio[5]: "PULSE5"
+  uio[6]: "PULSE6"
+  uio[7]: "PULSE7"
 
 # Do not change!
 yaml_version: 6
