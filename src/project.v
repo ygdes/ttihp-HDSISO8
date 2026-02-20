@@ -21,11 +21,17 @@ module tt_um_ygdes_hdsiso8 (
 //  ui[2]: "EXT_RST"
 //  ui[3]: "D_IN"
 
+//  ui[6]: "LFSR_EN"
+//  ui[7]: "DIN_SEL"
+
 //  uo[0]: "D_OUT"
 //  uo[1]: "GRAY0"
 //  uo[2]: "GRAY1"
 //  uo[3]: "GRAY2"
 //  uo[4]: "CLK_OUT"
+
+//  uo[6]: "LFSR_PERIOD"
+//  uo[7]: "LFSR_BIT"
 
 //  uio[0]: "PULSE0"
 //  uio[1]: "PULSE1"
@@ -36,10 +42,9 @@ module tt_um_ygdes_hdsiso8 (
 //  uio[6]: "PULSE6"
 //  uio[7]: "PULSE7"
     
-  // All output pins must be assigned. If not used, assign to 0.
   assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
   assign uio_out = {5'b00000, ena, clk, rst_n}; // en attendant de sortir les pulses
-  assign uio_oe  = 8'b111111;
+  assign uio_oe  = 8'b111111; // tout en sortie !
 
   // List all unused inputs to prevent warnings
   // wire _unused = &{ena, clk, rst_n, 1'b0}; ==> envoyé sur uio_out
