@@ -41,7 +41,9 @@ An 8-bit LFSR is also integrated to ease testing. Thus an oscilloscope and a var
 * See if both traces match.
 * Send me pictures of your scope traces!
 
-Note : 8 bits gives a period of 255, the actual depth of the SISO is not exactly that so a shift is expected.
+Note: 8 bits gives a period of 255, the actual depth of the SISO is not exactly that so a shift is expected.
+
+Note 2: The LFSR_PERIOD pulse appears 192 clock cycles after the release of the RESET pin.
 
 ![](TT_interface_PRNG_w.png)
 
