@@ -42,9 +42,9 @@ module tt_um_ygdes_hdsiso8 (
 //  uio[6]: "PULSE6"
 //  uio[7]: "PULSE7"
     
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
+  assign uo_out  = ui_in + 8'b01101101;
   assign uio_out = {5'b00000, ena, clk, rst_n}; // en attendant de sortir les pulses
-  assign uio_oe  = 8'b111111; // tout en sortie !
+  assign uio_oe  = 8'b11111111; // tout en sortie !
 
   // List all unused inputs to prevent warnings
   // wire _unused = &{ena, clk, rst_n, 1'b0}; ==> envoyé sur uio_out
