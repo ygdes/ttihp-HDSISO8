@@ -17,10 +17,10 @@ The apparent complexity comes from the 8-phase clock, which is brought to the "a
 WARNING : This is highly experimental, only a first shot and also my first tapeout! I have a long experience in FPGA design, so I am confident (too confident?) but the edges are very rough and will irk the EDA tools. Also I learn Verilog and I miss VHDL...
 
 * Clock and Reset can be asserted by external pins and internal signals.
-* The pin CLK_OUT copies the currently selected clock, for external triggering and troubleshooting. 
-* External reset overrides the internal reset, don't let it float.
+* The pin CLK_OUT copies the currently selected clock, for external triggering and troubleshooting. If it oscillates, it should work.
+* External reset (asserted at 0 like the internal one) overrides the internal reset, don't let it float. A weak pull-up to 1 is advised.
 * External clock (pin EXT_CLK) can be selected using pin CLK_SEL (don't let them float)
-* Always assert RESET while changing the state of CLK_SEL
+* Always assert RESET (to 0) while changing the state of CLK_SEL
 * Startup: RESET asserted, run clock, release RESET (RESET is internally clock-resynchronised)
 * Input a '1' or a '0' on D_IN, and observe the value appearing on D_OUT after 256 clock cycles (or so)
 
@@ -40,6 +40,8 @@ An 8-bit LFSR is also integrated to ease testing. Thus an oscilloscope and a var
 * Connect an oscilloscope to observe the two traces D_OUT and LFSR_BIT while triggering on LFSR_PERIOD
 * See if both traces match.
 * Send me pictures of your scope traces!
+
+Note : 8 bits gives a period of 255, the actual depth of the SISO is not exactly that so a shift is expected.
 
 ## External hardware
 
