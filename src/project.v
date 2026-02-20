@@ -47,6 +47,7 @@ module tt_um_ygdes_hdsiso8 (
   assign uio_oe  = 8'b11111111; // tout en sortie !
 
   // List all unused inputs to prevent warnings
-  // wire _unused = &{ena, clk, rst_n, 1'b0}; ==> envoyé sur uio_out
+    // wire _unused = &{ena, clk, rst_n, 1'b0}; ==> envoyés sur uio_out
+  wire _unused = &{uio_in, 1'b0};
 
 endmodule
