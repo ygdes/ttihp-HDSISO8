@@ -43,6 +43,8 @@ An 8-bit LFSR is also integrated to ease testing. Thus an oscilloscope and a var
 
 Note : 8 bits gives a period of 255, the actual depth of the SISO is not exactly that so a shift is expected.
 
+![](TT_interface_PRNG_w.png)
+
 ## External hardware
 
 A basic custom test board will be put together, to hook the variable frequency generator and the oscilloscope.
