@@ -1,3 +1,5 @@
+![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+
 # Tiny Tapeout Project: HDSISO8
 
 This is a prototype of a shift register that explores how to store data more densely than classic DFFs could, using the specific IHP CMOS PDK.
