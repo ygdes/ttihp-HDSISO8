@@ -28,7 +28,7 @@ Extra insight and observability:
 * The IO port shows the 8 internal staggered pulses, turning from 0 to 1 and back to 0 in a linear sequence (think KITT or a 4017).
 * 3 output pins provide the state of the 3-bit Gray counter, thus you should observe a pretty pattern where only one pin changes at each clock cycle.
 
-## LFSR
+## Bonus: LFSR
 
 An 8-bit LFSR is also integrated to ease testing. Thus an oscilloscope and a variable frequency oscillator are enough to characterise the achieveable speed.
 
