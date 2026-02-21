@@ -48,7 +48,7 @@ Note: 8 bits gives a period of 255, the actual depth of the SISO is not exactly 
 
 Note 2: The LFSR_PERIOD pulse appears 192 clock cycles after the release of the RESET pin.
 
-![](TT_interface_PRNG_2.png)
+![](TT_interface_PRNG_w.png)
 
 You can play with it on Falstad's interactive simulator, using the .cjs file in this directory. A short link is https://is.gd/5dnN2C but might not work forever.
 
