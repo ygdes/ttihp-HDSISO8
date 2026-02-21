@@ -1,6 +1,6 @@
 ## How it works
 
-As the name implies, it's a high density shift register for deep digital delays. According to the PDK for CMOS IHP:
+As the name implies, it's a high density shift register for deep digital delays. According to the PDK for CMOS IHP at
 https://github.com/IHP-GmbH/IHP-Open-PDK/blob/main/ihp-sg13g2/libs.ref/sg13g2_stdcell/doc/sg13g2_stdcell_typ_1p20V_25C.pdf
 
 * Area of sg13g2_dfrbpq_1 : 48.98880
@@ -11,6 +11,9 @@ MUX2 is almost 3× smaller than the DFF gate and could be used as a latch (which
 Compared to a normal DFF, it could store twice the same amount of bits per unit of surface, if the controller is excluded, but since it could work for any depth, the controller's size becomes insignificant. Depths of several kilobits are possible withouth hassle (if all goes well), without heavily taxing the clock network, reducing simultaneous switching noise...
 
 The apparent complexity comes from the 8-phase clock, which is brought to the "asynchronous" domain and the 8 pulses. Each of the 8 lanes is 8× slower (which relaxes timing constraints) but the overall throughput is preserved. So it "should" work at "full speed", I expect 50MHz to work (more or less).
+
+For implementation, I use the Verilog workflow and instatiate cells directly from
+https://github.com/IHP-GmbH/IHP-Open-PDK/blob/main/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v
 
 ## How to test
 
@@ -45,10 +48,12 @@ Note: 8 bits gives a period of 255, the actual depth of the SISO is not exactly 
 
 Note 2: The LFSR_PERIOD pulse appears 192 clock cycles after the release of the RESET pin.
 
-![](TT_interface_PRNG_w.png)
+![](TT_interface_PRNG_2.png)
+
+You can play with it on Falstad's interactive simulator, using the .cjs file in this directory. A short link is https://is.gd/5dnN2C but might not work forever.
 
 ## External hardware
 
-A basic custom test board will be put together, to hook the variable frequency generator and the oscilloscope.
+A basic custom test board will be put together, to hook the variable frequency generator and the oscilloscope probes.
 
 Optionally, if you only want to make a "light chaser", hook 8 LED to the IO port, select the external clock and add a 555.
