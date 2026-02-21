@@ -31,25 +31,27 @@ module tt_um_ygdes_hdsiso8 (
   assign D_IN    = ui_in[3];
 
   wire CLK_OUT;
-  assign uo_out[4] = CLK_OUT;
+  assign uo_out[1] = CLK_OUT;
 
 
   // SISO
-  wire [2:0] GRAY;
+  wire [3:0] Johnson;
   wire D_OUT;
   assign uo_out[0] = D_OUT;
-  assign uo_out[1] = GRAY[0];
-  assign uo_out[2] = GRAY[1];
-  assign uo_out[3] = GRAY[2];
+  assign uo_out[2] = Johnson[0];
+  assign uo_out[3] = Johnson[1];
+  assign uo_out[4] = Johnson[2];
+  assign uo_out[5] = Johnson[3];
 
   wire [7:0] PULSES;
   assign uio_out  = PULSES;
 
 
   // LFSR
-  wire LFSR_EN, DIN_SEL;
-  assign LFSR_EN = ui_in[6];
-  assign DIN_SEL = ui_in[7];
+  wire SHOW_LFSR, LFSR_EN, DIN_SEL;
+  assign SHOW_LFSR = ui_in[5],
+  assign LFSR_EN   = ui_in[6];
+  assign DIN_SEL   = ui_in[7];
 
   wire LFSR_PERIOD, LFSR_BIT;
   assign uo_out[6] = LFSR_PERIOD;
@@ -104,8 +106,8 @@ module tt_um_ygdes_hdsiso8 (
   // List all unused inputs to prevent warnings
   wire _unused = &{
     ena,
+    SHOW_LFSR,  // will select the uio_out data later
     ui_in[4],
-    ui_in[5],
     uio_in,
     1'b0};
 
@@ -115,7 +117,7 @@ module tt_um_ygdes_hdsiso8 (
 
   // SISO
   assign D_OUT = 1'b0;
-  assign GRAY = 3'b000;
+  assign Johnson = 4'b0000;
 
   // LFSR
   assign LFSR_PERIOD = LFSR_EN;
