@@ -19,7 +19,7 @@ module LFSR8(
 
   wire feedback;
   // pulling LFSR_EN low stalls the LFSR even if the clock runs. Toggle RESET to restart
-  (* keep *) sg13g2_and2_2 and_d(.X(feedback), .A(LFSR_STATE[0]), .B(LFSR_EN));
+  (* keep *) sg13g2_and2_2 and_a(.X(feedback), .A(LFSR_STATE[0]), .B(LFSR_EN));
 
   assign LFSR_BIT = LFSR_STATE[0];
 

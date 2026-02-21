@@ -60,7 +60,7 @@ module tt_um_ygdes_hdsiso8 (
 
 ////////////////////////////// home soup //////////////////////////////
 
-  wire INT_RESET, CLK_OUT, SISO_in;
+  wire INT_RESET, SISO_in;
 
   // CLK_OUT = clk if CLK_SEL=0, else EXT_CLK
   // assign CLK_OUT = CLK_SEL ? EXT_CLK : clk;
