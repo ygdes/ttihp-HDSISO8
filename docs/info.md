@@ -57,4 +57,4 @@ You can play with it on Falstad's interactive simulator, using the .cjs file in 
 
 A basic custom test board will be put together, to hook the variable frequency generator and the oscilloscope probes.
 
-Optionally, if you only want to make a "light chaser", hook 8 LED to the IO port, select the external clock and add a 555. Or you can have a more funky pattern by displayin the LFSR's state by setting SHOW_LFSR to 1.
+Optionally, if you only want to make a "light chaser", hook 8 LED to the IO port, select the external clock and add a 555. Or you can have a more funky pattern by displaying the LFSR's state by setting SHOW_LFSR to 1.
