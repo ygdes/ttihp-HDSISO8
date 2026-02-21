@@ -1,5 +1,6 @@
 # Makefile
 # See https://docs.cocotb.org/en/stable/quickstart.html for more info
+# modified to allow RTL simulation of the IHP PDK
 
 # defaults
 SIM ?= icarus
@@ -13,6 +14,7 @@ ifneq ($(GATES),yes)
 # RTL simulation:
 SIM_BUILD				= sim_build/rtl
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
+VERILOG_SOURCES += $(PWD)/sg13g2_stdcell.v   # added by yg to support the native cells from the IHP PDK
 
 else
 
