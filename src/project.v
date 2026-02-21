@@ -49,7 +49,7 @@ module tt_um_ygdes_hdsiso8 (
 
   // LFSR
   wire SHOW_LFSR, LFSR_EN, DIN_SEL;
-  assign SHOW_LFSR = ui_in[5],
+  assign SHOW_LFSR = ui_in[5];
   assign LFSR_EN   = ui_in[6];
   assign DIN_SEL   = ui_in[7];
 
