@@ -44,7 +44,7 @@ module tt_um_ygdes_hdsiso8 (
   assign uo_out[5] = Johnson[3];
 
   wire [7:0] PULSES;
-  assign uio_out  = PULSES;
+  assign uio_out  = PULSES; // will be multiplexed later
 
 
   // LFSR
@@ -91,23 +91,21 @@ module tt_um_ygdes_hdsiso8 (
 ////////////////////////////// sub-modules //////////////////////////////
 
   LFSR8 lfsr(
-    // In
     .CLK(CLK_OUT),
     .RESET(INT_RESET),
     .LFSR_EN(LFSR_EN),
-    // Out
     .LFSR_PERIOD(LFSR_PERIOD),
     .LFSR_BIT(LFSR_BIT),
-    .LFSR_STATE(PULSES));  // the LFSR state is temporarily routed to the byte output
+    .LFSR_STATE(PULSES));  // the LFSR state is directly routed to the byte output, will be muxed later.
 
 
 ////////////////////////////// All the dummies go here //////////////////////////////
 
   // List all unused inputs to prevent warnings
   wire _unused = &{
-    ena,
+    ena,        // They said not to bother, then ... why provide it ?
     SHOW_LFSR,  // will select the uio_out data later
-    ui_in[4],
+    ui_in[4],  // One pin left.
     uio_in,
     1'b0};
 
@@ -118,9 +116,5 @@ module tt_um_ygdes_hdsiso8 (
   // SISO
   assign D_OUT = 1'b0;
   assign Johnson = 4'b0000;
-
-  // LFSR
-  assign LFSR_PERIOD = LFSR_EN;
-  assign LFSR_BIT = DIN_SEL;
 
 endmodule
