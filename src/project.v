@@ -68,7 +68,7 @@ module tt_um_ygdes_hdsiso8 (
 
   // Combine Reset
   wire and_reset;
-  (* keep *) sg13g2_and2_2 soup_and1(.Y(and_reset), .A(rst_n), .B(EXT_RST));
+  (* keep *) sg13g2_and2_2 soup_and1(.X(and_reset), .A(rst_n), .B(EXT_RST));
 
 //  always@(posedge CLK_OUT) begin
 //    // resynch INT_RESET = rst_n AND EXT_RST
