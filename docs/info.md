@@ -28,8 +28,8 @@ WARNING : This is highly experimental, only a first shot and also my first tapeo
 * Input a '1' or a '0' on D_IN, and observe the value appearing on D_OUT after 256 clock cycles (or so)
 
 Extra insight and observability:
-* The IO port shows the 8 internal staggered pulses, turning from 0 to 1 and back to 0 in a linear sequence (think KITT or a 4017) or the internal state of the LFSR.
-* 3 output pins provide the state of the 3-bit Gray counter, thus you should observe a pretty pattern where only one pin changes at each clock cycle.
+* When SHOW_LFSR=0, the IO port shows the 8 internal staggered pulses, turning from 0 to 1 and back to 0 in a linear sequence. It's just like a 4017 but 8 bits, since it's a Johnson counter too.
+* 4 output pins provide the internal state of the 4-bit Johnson counter, or ring counter, thus you should observe a pretty pattern where only one pin changes at each clock cycle. I tried Gray counters but it's overkill.
 
 ## Bonus: LFSR
 
@@ -39,15 +39,15 @@ An 8-bit LFSR is also integrated to ease testing. Thus an oscilloscope and a var
 * Select the desired clock (CLK_SEL)
 * Unlock the internal LFSR by asserting pin LFRS_EN to 1
 * Assert pin DIN_SEL (1) to internally route the LFSR bitstream to the SISO input
-* run the clock (internal or external, depending on CLK_SEL)
-* release Reset (1) (now it should be started)
+* Run the clock (internal or external, depending on CLK_SEL)
+* Release Reset (1) (now it should be started)
 * Connect an oscilloscope to probe the signals D_OUT and LFSR_BIT while triggering on LFSR_PERIOD (which pulses every 255 clock cycles)
 * See if both traces match.
 * Send me pictures of your scope traces!
 
 Note: 8 bits gives a period of 255, the SISO is not exactly that deep, so a small shift is expected.
 
-Note 2: The LFSR_PERIOD pulse appears 192 clock cycles after the release of the RESET pin.
+Note 2: The LFSR_PERIOD pulse should appear 192 clock cycles after the release of the RESET pin.
 
 ![](TT_interface_PRNG_w.png)
 
@@ -57,4 +57,4 @@ You can play with it on Falstad's interactive simulator, using the .cjs file in 
 
 A basic custom test board will be put together, to hook the variable frequency generator and the oscilloscope probes.
 
-Optionally, if you only want to make a "light chaser", hook 8 LED to the IO port, select the external clock and add a 555. The LFSR output is more chaotic.
+Optionally, if you only want to make a "light chaser", hook 8 LED to the IO port, select the external clock and add a 555. Or you can have a more funky pattern by displayin the LFSR's state by setting SHOW_LFSR to 1.
