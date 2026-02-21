@@ -107,9 +107,10 @@ module tt_um_ygdes_hdsiso8 (
     SHOW_LFSR,  // will select the uio_out data later
     ui_in[4],  // One pin left.
     uio_in,
+    SISO_in,
     1'b0};
 
-  assign uo_out[4] = 1'b0; // unused out
+  //  assign uo_out[4] = 1'b0; // unused out... until Johnso came.
 
   // dummy constants until I write the corresponding code
 
