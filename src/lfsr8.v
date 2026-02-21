@@ -14,7 +14,7 @@ module LFSR8(
   output wire LFSR_BIT,
   output [7:0] LFSR_STATE);
 
-  wire dum1, dum2; -- some unused DFF outputs
+  wire dum1, dum2; // some unused DFF outputs
   wire _unused = &{dum1, dum2, 1'b0};
 
   wire feedback;
