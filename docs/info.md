@@ -22,29 +22,30 @@ WARNING : This is highly experimental, only a first shot and also my first tapeo
 * Clock and Reset can be asserted by external pins and internal signals.
 * The pin CLK_OUT copies the currently selected clock, for external triggering and troubleshooting. If it oscillates, it should work.
 * External reset (asserted at 0 like the internal one) overrides the internal reset, don't let it float. A weak pull-up to 1 is advised.
-* External clock (pin EXT_CLK) can be selected using pin CLK_SEL (don't let them float)
+* External clock (pin EXT_CLK) can be selected when pin CLK_SEL=1 (don't let them float)
 * Always assert RESET (to 0) while changing the state of CLK_SEL
-* Startup: RESET asserted, run clock, release RESET (RESET is internally clock-resynchronised)
+* Startup: RESET asserted, choose CLK_SEL's value, run that clock, release RESET (to 1, and RESET is internally clock-resynchronised so give it a cycle to come into effect)
 * Input a '1' or a '0' on D_IN, and observe the value appearing on D_OUT after 256 clock cycles (or so)
 
 Extra insight and observability:
-* The IO port shows the 8 internal staggered pulses, turning from 0 to 1 and back to 0 in a linear sequence (think KITT or a 4017).
+* The IO port shows the 8 internal staggered pulses, turning from 0 to 1 and back to 0 in a linear sequence (think KITT or a 4017) or the internal state of the LFSR.
 * 3 output pins provide the state of the 3-bit Gray counter, thus you should observe a pretty pattern where only one pin changes at each clock cycle.
 
 ## Bonus: LFSR
 
-An 8-bit LFSR is also integrated to ease testing. Thus an oscilloscope and a variable frequency oscillator are enough to characterise the achieveable speed.
+An 8-bit LFSR is also integrated to ease testing. Thus an oscilloscope and a variable frequency oscillator are enough to characterise the achieveable speed. To use it,
 
 * Assert the external reset (0)
-* Enable the internal LFSR by asserting pin LFRS_EN to 1
-* Assert pin DIN_SEL (1) to route the LFSR bitstream to the SISO input
+* Select the desired clock (CLK_SEL)
+* Unlock the internal LFSR by asserting pin LFRS_EN to 1
+* Assert pin DIN_SEL (1) to internally route the LFSR bitstream to the SISO input
 * run the clock (internal or external, depending on CLK_SEL)
 * release Reset (1) (now it should be started)
-* Connect an oscilloscope to observe the two traces D_OUT and LFSR_BIT while triggering on LFSR_PERIOD
+* Connect an oscilloscope to probe the signals D_OUT and LFSR_BIT while triggering on LFSR_PERIOD (which pulses every 255 clock cycles)
 * See if both traces match.
 * Send me pictures of your scope traces!
 
-Note: 8 bits gives a period of 255, the actual depth of the SISO is not exactly that so a shift is expected.
+Note: 8 bits gives a period of 255, the SISO is not exactly that deep, so a small shift is expected.
 
 Note 2: The LFSR_PERIOD pulse appears 192 clock cycles after the release of the RESET pin.
 
@@ -56,4 +57,4 @@ You can play with it on Falstad's interactive simulator, using the .cjs file in 
 
 A basic custom test board will be put together, to hook the variable frequency generator and the oscilloscope probes.
 
-Optionally, if you only want to make a "light chaser", hook 8 LED to the IO port, select the external clock and add a 555.
+Optionally, if you only want to make a "light chaser", hook 8 LED to the IO port, select the external clock and add a 555. The LFSR output is more chaotic.
