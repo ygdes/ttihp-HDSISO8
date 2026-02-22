@@ -29,7 +29,6 @@ LFSR_BIT    = 128  # assign uo_out[7] = LFSR_BIT;
 
 # assign uio_out  = PULSES;
 
-
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -45,15 +44,15 @@ async def test_project(dut):
     dut.rst_n.value = 0   # circuit stopped
 
     dut.ui_in.value = LFSR_EN + SHOW_LFSR # early selection
-        # CLK_SEL=0, internal clock selected.
-        # DIN_SEL not used yet.
+    # CLK_SEL=0, internal clock selected.
+    # DIN_SEL not used yet.
     await ClockCycles(dut.clk, 3)  # overkill, should have settled in 1 cycle
   
     dut.rst_n.value = 1            # wake up (from inside)
     await ClockCycles(dut.clk, 3)  # should be long enough
     dut._log.info("Test project behavior")
 
-# The real wake-up
+    # The real wake-up
 
     await ClockCycles(dut.clk, 1)
     dut.ui_in.value = EXT_RST + LFSR_EN + SHOW_LFSR  # RESET released, it should take one clock to take effect
