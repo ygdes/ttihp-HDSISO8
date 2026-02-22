@@ -99,13 +99,12 @@ async def test_project(dut):
     i = 0
     while (True):  # one last ride.
       await ClockCycles(dut.clk, 1)
-      assert dut.uio_out.value != 0
-      dut._log.info("cycle " + str(i) + " = " + str(dut.uio_out.value)  + " : " + str(dut.uio_out.value[i]))
+      dut._log.info("cycle " + str(i) + " = " + str(dut.uio_out.value))
+      assert dut.uio_out.value[i] == 1
       i = i+1
       if i >= 8:
         break
 
-    await ClockCycles(dut.clk, 10)
     dut._log.info(" Johnson8 OK !")
 
 # junkyard...
