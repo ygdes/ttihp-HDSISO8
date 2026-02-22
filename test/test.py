@@ -62,7 +62,7 @@ async def test_project(dut):
     for i in range(1, 200):   # run baby run
       await ClockCycles(dut.clk, 1)
       if i > 180:
-        dut._log.info(str(i) + ": " + str())
+        dut._log.info(str(i) + ": " + str(dut.uo_out.value[6]))
 #      assert dut.uo_out.value[6] == 0
 
 #    # period
