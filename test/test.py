@@ -85,24 +85,24 @@ async def test_project(dut):
 
     dut.ui_in.value = EXT_RST + SHOW_LFSR  # LFSR_EN off, stall the register feedback
     await ClockCycles(dut.clk, 10)
-#    assert dut.uio_out.value == 0
+    assert dut.uio_out.value == 4 # not 0 since one bit is inverted
   
     dut._log.info(" LFSR OK !")
 
     dut.ui_in.value = 0   # EXT_RST asserted, SHOW_LFSR off : restart everything
-    await ClockCycles(dut.clk, 2)
-#    assert dut.uio_out.value == 0 # the pulses must be off during RESET
+    await ClockCycles(dut.clk, 3)
+    assert dut.uio_out.value == 0 # the pulses must be off during RESET
 
     dut.ui_in.value = EXT_RST  # restart
-    #await ClockCycles(dut.clk, 1)
+    await ClockCycles(dut.clk, 2) # takes 2 cycles until the counter is visible
 
     i = 0
     while (True):  # one last ride.
-      # assert dut.uio_out.value != 0
+      assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
       i = i+1
       dut._log.info("cycle " + str(i) + " = " + str(dut.uio_out.value))
-      if i >= 10:
+      if i >= 8:
         break
 
     await ClockCycles(dut.clk, 10)
