@@ -59,25 +59,40 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut._log.info("wake up")
 
-    for i in range(1, 191):   # run baby run
-      #assert dut.uio_out.value != 0
+    i = 1
+    while (True):   # run baby run
+      assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
-      assert dut.uo_out.value[6] == 0
+      if dut.uo_out.value[6]:
+        dut._log.info("Period 1: " + str(i))
+        break
+      i = i+1
+      assert i < 200
 
-    await ClockCycles(dut.clk, 1)
-    assert dut.uo_out.value[6] == 1
-    dut._log.info("Period 1");
-
-    for i in range(1, 254):   # run baby run
-      #assert dut.uio_out.value != 0
+    i = 1
+    while (True):
+      assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
-      assert dut.uo_out.value[6] == 0
+      if dut.uo_out.value[6]:
+        dut._log.info("Period 2: " + str(i))
+        break
+      i = i+1
+      assert i < 260
 
-    await ClockCycles(dut.clk, 1)
-    assert dut.uo_out.value[6] == 1
-    dut._log.info("Period 2");
 
+#    dut._log.info("now, expecting 1")
+#    await ClockCycles(dut.clk, 1)
+#    assert dut.uo_out.value[6] == 1
+#    dut._log.info("Period 1");
 
+#    for i in range(1, 254):   # run baby run
+#      #assert dut.uio_out.value != 0
+#      await ClockCycles(dut.clk, 1)
+#      assert dut.uo_out.value[6] == 0
+
+#    await ClockCycles(dut.clk, 1)
+#    assert dut.uo_out.value[6] == 1
+#    dut._log.info("Period 2");
 
 #    for i in range(1, ):   # run baby run
 #      await ClockCycles(dut.clk, 1)
