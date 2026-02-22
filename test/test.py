@@ -56,11 +56,21 @@ async def test_project(dut):
 
     await ClockCycles(dut.clk, 1)
     dut.ui_in.value = EXT_RST + LFSR_EN + SHOW_LFSR  # RESET released, it should take one clock to take effect
+    await ClockCycles(dut.clk, 1)
+    dut._log.info("wake up")
 
-    for x in range(0, 193):   # run baby run
+    for i in range(1, 200):   # run baby run
       await ClockCycles(dut.clk, 1)
-      if dut.uo_out.value[6] :
-        dut._log.info("Period")
+      if i > 180:
+        dut._log.info(str(i) + ": " + str())
+#      assert dut.uo_out.value[6] == 0
+
+#    # period
+#    await ClockCycles(dut.clk, 1)
+#    if dut.uo_out.value[6] :
+#      dut._log.info("Period")
+#    assert dut.uo_out.value[6} == 1
+
 
 # no assert yet so the sim "passes" but...
 
