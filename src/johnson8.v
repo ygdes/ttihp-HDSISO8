@@ -5,7 +5,7 @@
   using raw cells from iHP CMOS PDK
 */
 
-module Johnson8 J8(
+module Johnson8(
   input  wire CLK,
   input  wire RESET,
   output wire [3:0] DFF4,
