@@ -105,6 +105,8 @@ async def test_project(dut):
       if i >= 10:
         break
 
+    await ClockCycles(dut.clk, 10)
+    dut._log.info(" Johnson8 OK !")
 
 # junkyard...
 
