@@ -6,18 +6,20 @@ https://github.com/IHP-GmbH/IHP-Open-PDK/blob/main/ihp-sg13g2/libs.ref/sg13g2_st
 * Area of sg13g2_dfrbpq_1 : 48.98880
 * Area of sg13g2_mux2_1 : 18.14400
 
-MUX2 is almost 3× smaller than the DFF gate and could be used as a latch (which is larger, what the hail ?). This implementation uses 4 MUX-latches to store 3 bits at a given time and non-overlapping "clock" pulses perform the shifting.
+MUX2 is almost 3× smaller than the DFF gate and could be used as a latch (which is larger, what the hail ?). This implementation uses 4 MUX-latches to store 3 bits at a given time and 4 non-overlapping "clock" pulses perform the shifting. Just like below, but with 8 parallel chains.
 
-Compared to a normal DFF, it could store twice the same amount of bits per unit of surface, as the controller's size becomes insignificant as the chain gets longer. Depths of several kilobits are possible without too much hassles (if the synth agress), without a mad clock network, reducing simultaneous switching noise...
+![](ShiftRegister_latches.png)
 
-The apparent complexity comes from the 8-phase clock, which is brought to the "asynchronous" domain and the 8 pulses. Each of the 8 lanes is 8× slower (which relaxes timing constraints) but the overall throughput is preserved. So it "should" work at "full speed", I expect 50MHz to work (more or less).
+The apparent complexity comes from the 8-phase clock, which is brought to the "asynchronous" domain and the 8 pulses. Each of the 8 lanes is 8× slower (which relaxes timing constraints) but the overall throughput is preserved. So it "should" work at "full speed", we'll see.
 
-For implementation, I use the Verilog workflow and instatiate cells directly from
-https://github.com/IHP-GmbH/IHP-Open-PDK/blob/main/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v
+Compared to a shift register with normal DFF, it could store twice the same amount of bits per unit of surface, as the controller's size becomes insignificant when the chain gets longer. Depths of several kilobits are possible without too much hassles (if the synth agrees), without a mad clock network, reducing simultaneous switching noise... Because since the pulses are slower, they are also shorter and affect only 1/8th of the cells at any time.
+
+Ideally, manual placement of the 8 chains should be manual/tooled, not thrown at random. For implementation, I use a "tuned" Verilog workflow and instatiate cells directly from
+https://github.com/IHP-GmbH/IHP-Open-PDK/blob/main/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v . For simulation, parts of this file are copy-pasted to gate-specific files to remove some warnings.
+
+As usual, it all comes "as is" with no guarantee whatsoever. I come in good faith but it's my first rodeo on this toolchain.
 
 ## How to test
-
-WARNING : This is highly experimental, only a first shot and also my first tapeout! I have a long experience in FPGA design, so I am confident (too confident?) but the edges are very rough and the EDA tools do not cooperate. Also I learn Verilog and I miss VHDL...
 
 * Clock and Reset can be asserted by external pins and internal signals.
 * The pin CLK_OUT copies the currently selected clock, for external triggering and troubleshooting. If it oscillates, it should work.
