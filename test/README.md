@@ -4,8 +4,6 @@ This directory has been sligthly affected to support the direct cell instanciati
 Following htamas' advice on Discord, I have added sg13g2_stdcell.v and also updated the Makefile,
 such that the preliminary sim is configured closer to the post-P&R simulation. I can catch errors faster.
 
-Also : using vcd instead of fst.
-
 # Sample testbench for a Tiny Tapeout project
 
 This is a sample testbench for a Tiny Tapeout project. It uses [cocotb](https://docs.cocotb.org/en/stable/) to drive the DUT and check the outputs.
