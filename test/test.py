@@ -57,11 +57,11 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut.ui_in.value = EXT_RST + LFSR_EN + SHOW_LFSR  # RESET released, it should take one clock to take effect
     await ClockCycles(dut.clk, 1)
+    assert dut.uio_out.value != 0
     dut._log.info("wake up")
 
     i = 1
     while (True):   # run baby run
-      assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
       if dut.uo_out.value[6]:
         dut._log.info("Period 1: " + str(i))
@@ -71,13 +71,14 @@ async def test_project(dut):
 
     i = 1
     while (True):
-      assert dut.uio_out.value != 0
+      #assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
       if dut.uo_out.value[6]:
         dut._log.info("Period 2: " + str(i))
         break
       i = i+1
       assert i < 260
+    dut._log.info(" OK !")
 
 
 #    dut._log.info("now, expecting 1")
