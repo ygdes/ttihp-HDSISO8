@@ -57,7 +57,7 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut.ui_in.value = EXT_RST + LFSR_EN + SHOW_LFSR  # RESET released, it should take one clock to take effect
 
-    for x in range(0, 191):   # run baby run
+    for x in range(0, 193):   # run baby run
       await ClockCycles(dut.clk, 1)
       if dut.uo_out.value[6] :
         dut._log.info("Period")
