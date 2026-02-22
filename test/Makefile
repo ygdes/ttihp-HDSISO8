@@ -14,7 +14,7 @@ ifneq ($(GATES),yes)
 # RTL simulation:
 SIM_BUILD				= sim_build/rtl
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
-VERILOG_SOURCES += $(PWD)/sg13g2_stdcell.v   # added by yg to support the native cells from the IHP PDK
+VERILOG_SOURCES += $(PWD)/sg13g2_*.v   # added by yg to support the native cells from the IHP PDK
 
 else
 
