@@ -1,7 +1,8 @@
 /*
  * Copyright (c) 2026 Yann Guidon / whygee@f-cpu.org
  * SPDX-License-Identifier: Apache-2.0
- * Check the /doc and the diagrams
+ * Check the /doc and the diagrams at
+ *   https://github.com/ygdes/ttihp-HDSISO8/tree/main/docs
  */
 
 `default_nettype none
@@ -20,7 +21,7 @@ module tt_um_ygdes_hdsiso8 (
 ////////////////////////////// Plumbing //////////////////////////////
 
   // IO config & misc.
-  assign uio_oe  = 8'b11111111; // Everything goes out
+  assign uio_oe  = 8'b11111111; // port uio goes all out
 
 
   // General/housekeeping signals
@@ -35,16 +36,13 @@ module tt_um_ygdes_hdsiso8 (
 
 
   // SISO
-  wire [3:0] Johnson;
+  wire [3:0] Johnson4;
   wire D_OUT;
   assign uo_out[0] = D_OUT;
-  assign uo_out[2] = Johnson[0];
-  assign uo_out[3] = Johnson[1];
-  assign uo_out[4] = Johnson[2];
-  assign uo_out[5] = Johnson[3];
-
-  wire [7:0] PULSES;
-  assign uio_out  = PULSES; // will be multiplexed later
+  assign uo_out[2] = Johnson4[0];
+  assign uo_out[3] = Johnson4[1];
+  assign uo_out[4] = Johnson4[2];
+  assign uo_out[5] = Johnson4[3];
 
 
   // LFSR
@@ -58,6 +56,11 @@ module tt_um_ygdes_hdsiso8 (
   assign uo_out[7] = LFSR_BIT;
 
 
+  // multiplexed output
+  wire [7:0] LFSR_state8, Decoded8;
+  assign uio_out = SHOW_LFSR ? LFSR_state8 : Decoded8 ;
+
+
 ////////////////////////////// home soup //////////////////////////////
 
   wire INT_RESET, SISO_in;
@@ -66,7 +69,7 @@ module tt_um_ygdes_hdsiso8 (
   // assign CLK_OUT = CLK_SEL ? EXT_CLK : clk;
   (* keep *) sg13g2_mux2_2 mux_clk(.A0(clk), .A1(EXT_CLK), .S(CLK_SEL), .X(CLK_OUT));
 
-  // Combine Reset
+  // Combined and resynch'ed Reset
   (* keep *) sg13g2_dfrbpq_2 DFF_reset(.Q(INT_RESET), .D(EXT_RST), .RESET_B(rst_n), .CLK(CLK_OUT));
 
 
@@ -85,26 +88,27 @@ module tt_um_ygdes_hdsiso8 (
     .LFSR_EN(LFSR_EN),
     .LFSR_PERIOD(LFSR_PERIOD),
     .LFSR_BIT(LFSR_BIT),
-    .LFSR_STATE(PULSES));  // the LFSR state is directly routed to the byte output, will be muxed later.
+    .LFSR_STATE(LFSR_state8));  // the LFSR state is directly routed to the byte output, will be muxed later.
 
+  Johnson8 J8(
+    .CLK(CLK_OUT),
+    .RESET(INT_RESET),
+    .DFF4(Johnson4),
+    .Decoded8(Decoded8));
 
 ////////////////////////////// All the dummies go here //////////////////////////////
 
   // List all unused inputs to prevent warnings
   wire _unused = &{
-    ena,        // They said not to bother, then ... why provide it ?
-    SHOW_LFSR,  // will select the uio_out data later
+    ena,       // They said not to bother, then ... why provide it ?
     ui_in[4],  // One pin left.
     uio_in,
     SISO_in,
     1'b0};
 
-  //  assign uo_out[4] = 1'b0; // unused out... until Johnso came.
-
   // dummy constants until I write the corresponding code
 
   // SISO
   assign D_OUT = 1'b0;
-  assign Johnson = 4'b0000;
 
 endmodule
