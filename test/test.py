@@ -27,7 +27,7 @@ Johnson3    =  32  # assign uo_out[5] = Johnson[3];
 LFSR_PERIOD =  64  # assign uo_out[6] = LFSR_PERIOD;
 LFSR_BIT    = 128  # assign uo_out[7] = LFSR_BIT;
 
-# assign uio_out  = PULSES;
+# assign uio_out  = PULSES or LFSR;
 
 @cocotb.test()
 async def test_project(dut):
@@ -59,10 +59,32 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut._log.info("wake up")
 
-    for i in range(1, 200):   # run baby run
+    for i in range(1, 192):   # run baby run
+      assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
-      if i > 180:
-        dut._log.info(str(i) + ": " + str(dut.uo_out.value[6]))
+      assert dut.uo_out.value[6] == 0
+
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value[6] == 1
+    dut._log.info("Period 1");
+
+    for i in range(1, 254):   # run baby run
+      assert dut.uio_out.value != 0
+      await ClockCycles(dut.clk, 1)
+      assert dut.uo_out.value[6] == 0
+
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value[6] == 1
+    dut._log.info("Period 2");
+
+
+
+#    for i in range(1, ):   # run baby run
+#      await ClockCycles(dut.clk, 1)
+#      if i > 180:
+#        dut._log.info(str(i) + ": " + str(dut.uo_out.value[6]))
+
+
 #      assert dut.uo_out.value[6] == 0
 
 #    # period
