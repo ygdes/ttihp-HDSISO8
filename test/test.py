@@ -46,10 +46,10 @@ async def test_project(dut):
     dut.ui_in.value = LFSR_EN + SHOW_LFSR # early selection
     # CLK_SEL=0, internal clock selected.
     # DIN_SEL not used yet.
-    await ClockCycles(dut.clk, 3)  # overkill, should have settled in 1 cycle
+    await ClockCycles(dut.clk, 2)
   
     dut.rst_n.value = 1            # wake up (from inside)
-    await ClockCycles(dut.clk, 3)  # should be long enough
+    await ClockCycles(dut.clk, 2)
     dut._log.info("Test project behavior")
 
     # The real wake-up
@@ -57,7 +57,10 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut.ui_in.value = EXT_RST + LFSR_EN + SHOW_LFSR  # RESET released, it should take one clock to take effect
 
-    await ClockCycles(dut.clk, 40)   # run baby run
+    for x in range(0, 800):   # run baby run
+      await ClockCycles(dut.clk, 1)
+      if dut.uo_out.value & LFSR_PERIOD
+        dut._log.info("Period")
 
 # no assert yet so the sim "passes" but...
 
