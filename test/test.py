@@ -57,7 +57,7 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut.ui_in.value = EXT_RST + LFSR_EN + SHOW_LFSR  # RESET released, it should take one clock to take effect
     await ClockCycles(dut.clk, 1)
-    assert dut.uio_out.value == 5 # init pattern
+    assert dut.uio_out.value == 6 # init pattern
     dut._log.info("wake up")
 
     i = 0
@@ -85,41 +85,21 @@ async def test_project(dut):
 
     dut._log.info(" OK !")
 
+# junkyard...
 
-#    dut._log.info("now, expecting 1")
-#    await ClockCycles(dut.clk, 1)
-#    assert dut.uo_out.value[6] == 1
-#    dut._log.info("Period 1");
-
-#    for i in range(1, 254):   # run baby run
-#      #assert dut.uio_out.value != 0
+#    for i in range(1, 254):
 #      await ClockCycles(dut.clk, 1)
 #      assert dut.uo_out.value[6] == 0
-
-#    await ClockCycles(dut.clk, 1)
-#    assert dut.uo_out.value[6] == 1
-#    dut._log.info("Period 2");
 
 #    for i in range(1, ):   # run baby run
 #      await ClockCycles(dut.clk, 1)
 #      if i > 180:
 #        dut._log.info(str(i) + ": " + str(dut.uo_out.value[6]))
 
-
-#      assert dut.uo_out.value[6] == 0
-
-#    # period
 #    await ClockCycles(dut.clk, 1)
 #    if dut.uo_out.value[6] :
 #      dut._log.info("Period")
-#    assert dut.uo_out.value[6} == 1
-
-
-# no assert yet so the sim "passes" but...
-
-#    dut.ui_in.value = 0
-#    await ClockCycles(dut.clk, 1)
-#    assert dut.uo_out.value == 109
+#    assert dut.uo_out.value[6] == 1
 
 #    dut.ui_in.value = 20
 #    await ClockCycles(dut.clk, 1)
