@@ -94,14 +94,14 @@ async def test_project(dut):
     assert dut.uio_out.value == 0 # the pulses must be off during RESET
 
     dut.ui_in.value = EXT_RST  # restart
-    await ClockCycles(dut.clk, 2) # takes 2 cycles until the counter is visible
+    await ClockCycles(dut.clk, 1) # 1 cycles before the counter is visible
 
     i = 0
     while (True):  # one last ride.
       assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
+      dut._log.info("cycle " + str(i) + " = " + str(dut.uio_out.value)  + " : " + str(dut.uio_out.value[i]))
       i = i+1
-      dut._log.info("cycle " + str(i) + " = " + str(dut.uio_out.value))
       if i >= 8:
         break
 
