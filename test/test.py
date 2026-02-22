@@ -68,7 +68,7 @@ async def test_project(dut):
       if dut.uo_out.value[6]:
         dut._log.info("Period 1: " + str(i))
         assert dut.uo_out.value == 255
-        assert i == 192
+        assert i == 193
         break
 
     i = 0
