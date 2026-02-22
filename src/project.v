@@ -84,7 +84,7 @@ module tt_um_ygdes_hdsiso8 (
 //      SISO_in <= DIN_SEL ? LFSR_BIT : D_IN;
 //  end
   wire mux_Din;
-  (* keep *) sg13g2_mux2_2 mux_Din(.A0(D_IN), .A1(LFSR_BIT), .S(DIN_SEL), .X(mux_Din));
+  (* keep *) sg13g2_mux2_2 mux2_Din(.A0(D_IN), .A1(LFSR_BIT), .S(DIN_SEL), .X(mux_Din));
   (* keep *) sg13g2_dfrbpq_2 DFF_Din(.Q(SISO_in), .D(mux_Din), .RESET_B(INT_RESET), .CLK(CLK_OUT));
 
 
