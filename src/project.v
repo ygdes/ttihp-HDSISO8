@@ -67,22 +67,11 @@ module tt_um_ygdes_hdsiso8 (
   (* keep *) sg13g2_mux2_2 mux_clk(.A0(clk), .A1(EXT_CLK), .S(CLK_SEL), .X(CLK_OUT));
 
   // Combine Reset
-  wire and_reset;
-  (* keep *) sg13g2_and2_2 and2_reset(.X(and_reset), .A(rst_n), .B(EXT_RST));
+  (* keep *) sg13g2_dfrbpq_2 DFF_reset(.Q(INT_RESET), .D(EXT_RST), .RESET_B(rst_n), .CLK(CLK_OUT));
 
-//  always@(posedge CLK_OUT) begin
-//    // resynch INT_RESET = rst_n AND EXT_RST
-//    INT_RESET <= rst_n & EXT_RST;
-//  end;
-  (* keep *) sg13g2_dfrbpq_2 DFF_reset(.Q(INT_RESET), .D(and_reset), .RESET_B(1'b1), .CLK(CLK_OUT));
 
-//  always@(posedge CLK_OUT, INT_RESET) begin
-//    if (INT_RESET == 1'b0)
-//      SISO_in <= 1'b0;
-//    else
-//    // SISO_in = LFSR_BIT if DIN_SEL=1 else default D_IN
-//      SISO_in <= DIN_SEL ? LFSR_BIT : D_IN;
-//  end
+  // Select + resynch D_in
+  //      SISO_in <= DIN_SEL ? LFSR_BIT : D_IN;
   wire mux_Din;
   (* keep *) sg13g2_mux2_2 mux2_Din(.A0(D_IN), .A1(LFSR_BIT), .S(DIN_SEL), .X(mux_Din));
   (* keep *) sg13g2_dfrbpq_2 DFF_Din(.Q(SISO_in), .D(mux_Din), .RESET_B(INT_RESET), .CLK(CLK_OUT));
