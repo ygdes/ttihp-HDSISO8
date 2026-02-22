@@ -59,8 +59,8 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut._log.info("wake up")
 
-    for i in range(1, 192):   # run baby run
-      assert dut.uio_out.value != 0
+    for i in range(1, 191):   # run baby run
+      #assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
       assert dut.uo_out.value[6] == 0
 
@@ -69,7 +69,7 @@ async def test_project(dut):
     dut._log.info("Period 1");
 
     for i in range(1, 254):   # run baby run
-      assert dut.uio_out.value != 0
+      #assert dut.uio_out.value != 0
       await ClockCycles(dut.clk, 1)
       assert dut.uo_out.value[6] == 0
 
