@@ -59,7 +59,7 @@ async def test_project(dut):
 
     for x in range(0, 800):   # run baby run
       await ClockCycles(dut.clk, 1)
-      if dut.uo_out.value & LFSR_PERIOD
+      if dut.uo_out[6].value :
         dut._log.info("Period")
 
 # no assert yet so the sim "passes" but...
